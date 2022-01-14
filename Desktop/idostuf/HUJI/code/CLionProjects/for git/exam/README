@@ -1,0 +1,37 @@
+Name: Ido Akov
+ID: 302246111
+CS-USER: ikavodo
+
+SpreaderDetectorBackend
+-----------------------------
+Please explain how you dealt with the following parts of the exam.
+
+Input processing
+----------------
+I used fgets to process the lines in a file, if there are any.
+I then used sscanf to format the line, and save the data via pointer to a dynamically-allocated
+struct I called "Person".
+
+Data storing
+------------
+I saved all data to a binary search tree, based on id comparison. This is of complexity
+O(mlogn) on average, and O(mn) in the worst case (if people in the file are sorted by id),
+with n being the number of people for which we are inputting data into the tree, and m the
+number of meetings.
+We notice that there are no cycles in the graph,meaning m <= n-1 = O(n), thus we get a final
+average complexity of O(nlogn), and worst time of O(n^2).
+The binary search tree also allowed me to read through the files only once, because working with
+pointers means not having to constantly change allocated memory or check the file size at first.
+
+Results sorting
+---------------
+I copied the Binary search tree data to a dynamically allocated array of pointers, and then used
+the built-in qsort function to sort the pointers by the probability of infection data in the
+struct to which they point.
+Copying the tree is of complexity O(n), and sorting is of complexity O(nlogn) on average, and in
+the worst case O(n^2).
+Thus we get a final run time of O(nlogn) on average for the program, O(n^2) in the worst
+possible case.
+
+
+
