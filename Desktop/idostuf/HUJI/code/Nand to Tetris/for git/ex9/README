@@ -1,0 +1,22 @@
+ikavodo, rivlev1997
+===============================================================================
+Ido Akov, ID 302246111, ido.akov@mail.huji.ac.il
+Rivka Levi, ID 318342250, rivka.levi@mail.huji.ac.il
+===============================================================================
+
+                           Project 9
+                           ---------
+  
+
+Submitted Files
+---------------
+Main.jack- runner class for app
+HiddenWord.jack - Class for keeping a selected word and its hidden state
+Messages.jack - Class for Output.printString() messages
+Draw.jack - class for drawing the hangNand game
+HangNand.jack - class which runs the hangNand game
+
+Remarks
+-------
+We think our game is actually good practice for the nand to tetris test!
+

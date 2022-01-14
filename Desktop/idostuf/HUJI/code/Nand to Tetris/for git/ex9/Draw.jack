@@ -1,0 +1,120 @@
+/** does all of the drawing in the game**/
+
+class Draw{
+	
+	field int drawPhase;
+	
+	/** Construct a Draw object */
+	constructor Draw new(){
+		let drawPhase = 0;
+		return this;
+	}
+	
+	/** return true if drawing is completed , false otherwise*/
+	method boolean isComplete(){
+		if(drawPhase < 6){
+			return false;
+			}
+		return true;
+	}
+
+	/** set current drawing phase */
+	method void setPhase( int phase){
+		let drawPhase = phase;
+		return;
+	}
+
+	/** get current drawing phase */
+	method int getPhase(){
+		return drawPhase;
+	}
+
+	/**darw the head*/
+	method void drawHead(){
+      	do Screen.drawCircle(305,90,15);
+		return;
+	}
+
+	/**darw the body*/
+	method void drawBody(){
+		do Screen.drawLine(305,105, 305, 160);
+		return;
+	}
+
+	/**darw the first leg*/
+	method void drawLeg1(){
+		do Screen.drawLine(305,160, 325, 180);
+		return;
+	}
+
+	/**darw the second leg*/
+	method void drawLeg2(){
+		do Screen.drawLine(305,160, 285, 180);
+		return;
+	}
+
+	/**draw the first hand*/
+	method void drawHand1(){
+		do Screen.drawLine(305,135, 320, 120);
+		return;
+	}
+
+	/**draw the second hand*/
+	method void drawHand2(){
+		do Screen.drawLine(305,135, 290, 120);
+		return;
+	}
+
+
+	/**draw the hang tree*/
+	method void drawTree(){
+		do Screen.drawRectangle(350, 200, 450, 205);
+  		do Screen.drawRectangle(395,40,400,200);
+  		do Screen.drawRectangle(300,40,405,45);
+  		do Screen.drawRectangle(300,40,305,75);
+		return;
+	}
+	/** draw one of man's body parts */
+	method void drawMan(int i){
+
+		if(i = 1){
+			do drawHead();
+		}
+		if(i = 2){
+			do drawBody();
+		}
+		if(i = 3){
+			do drawHand1();
+		}
+		if(i = 4){
+			do drawHand2();
+		}
+		if(i = 5){
+			do drawLeg1();
+		}
+		if(i = 6){
+			do drawLeg2();
+		}
+		return;		
+	}
+
+	/** dispose of object */
+	method void dispose() {
+		do Memory.deAlloc(this);
+		return;
+	}
+
+	/** draw all phases until current phase after screen clear */
+	method void drawAll()
+	{
+		var int i;
+		let i = 1;
+		do drawTree();
+		while (~(i > drawPhase))
+		{
+			do drawMan(i);
+			let i = i + 1;
+		}
+		return;
+	}
+}

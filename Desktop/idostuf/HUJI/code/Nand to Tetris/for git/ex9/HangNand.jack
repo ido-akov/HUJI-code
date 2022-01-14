@@ -1,0 +1,284 @@
+/**
+ * Implements the HangMan game.
+ */
+
+class HangNand {
+	/** fields */
+	field Draw draw;
+	field boolean gameOver;
+	field HiddenWord word; 
+	field String alphabet;
+	field Array lettersGuessed;
+	field int guesses;
+	field String remainingLetters;
+	field boolean mode;
+
+   	/** Constructs a new HangMan Game. */
+   	constructor HangNand new() {
+   		let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		let draw = Draw.new();
+      	return this;
+   	}
+
+   	/* at the beginning of a new game- initialize all data to beginning state */
+   	method void initializeGame(int round)
+   	{
+	   	let guesses = 0;
+		let gameOver = false;
+		if (round > 0)
+		{
+			//get rid of previous values
+			do remainingLetters.dispose();
+			do lettersGuessed.dispose();
+			do word.dispose();
+		}
+		let remainingLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		let lettersGuessed = Array.new(alphabet.length());
+		let word = HiddenWord.new(round, mode);
+		do draw.setPhase(0);
+		do draw.drawTree();
+		return;
+   	}
+
+   	/** Disposes this game. */
+   	method void dispose() {
+   		//we dispose all fields first
+		do alphabet.dispose();
+		do remainingLetters.dispose();
+		do word.dispose();
+		do draw.dispose();
+		do lettersGuessed.dispose();
+		//dispose game
+		do Memory.deAlloc(this);
+		return;
+   	}
+
+	/**ask for another game or exit the  game */
+	method boolean askReplayOrExit(){
+		var char userInput;
+		do Screen.clearScreen();
+		do Output.moveCursor(0,0);
+		do Messages.restartGameMessage();
+		let userInput = Keyboard.readChar();   // get the input
+		//if input = 'X'
+		if(userInput = 88)
+		{
+			//user wants to exit
+			return false;
+		}	
+		else
+		{
+			//start new game 
+			return true;
+		}
+	}
+
+	method boolean pickMode(){
+		var char userInput;
+		do Messages.getMode();
+		let userInput = Keyboard.readChar();   // get the input
+		if(userInput = 90)
+		{
+			//user wants a hard word
+			return true;
+		}	
+		else
+		{
+			return false;
+		}
+	}
+
+   	/** Runs the games: according to the user inputs */
+   	method void run() {
+		var int round;
+		let round = 0;
+		do runSingleGame(round);
+		//while user wants to keep playing
+		while(askReplayOrExit() = true){
+			let round = round + 1;
+			if (round > 17) {
+				//go back to first words in loop  
+				let round = Math.divide(round, 17);
+			}
+			do runSingleGame(round);
+		}
+		return;	
+   	}
+
+
+	/**run a single game*/
+	method void runSingleGame(int round){
+		if (round = 0)
+		{
+			//first game played
+			do Messages.writeNewGame();
+			let mode = pickMode();
+		}
+		do initializeGame(round);
+		while (~gameOver){
+			//while winning or losing states haven't been achieved
+			do runSingleTurn();	
+			}
+		return;
+	}
+
+
+
+	/**run a single turn*/
+	method void runSingleTurn(){
+		var char input;
+		var int index;
+		var char hint;
+
+		do Screen.clearScreen();
+		do draw.drawAll();
+		do Output.moveCursor(0,0);
+		//write current word state
+		do Messages.writeWordState(word.getHidden());
+		do Messages.enterLetterMessage();  //ask user for input
+        let input = Keyboard.readChar();
+        if (input = 32)
+        {
+        	//user pressed space for a hint
+        	let hint = word.giveHint();
+        	if (~(hint = 0))
+        	{ 
+        		//hint was given
+        		do updateGameState(hint, true);
+        	}
+        	else 
+        	{
+        		do Messages.noHint();
+        	}
+        	return;
+        }
+        else 
+        {
+        	//user gave some other input
+        	if (inputInvalid(input)){
+        		//input invalid
+        		do Messages.invalidInputMessage(input);
+        }
+			else
+			{
+				//input is valid
+				if (wasSelected(input))
+				{
+					//input was chosen already
+					do Messages.wasSelected(remainingLetters);
+				}
+				else 
+				{
+					// input wasn't chosen already, update game accordingly
+					do updateGameState(input, false);
+				}			
+			}
+			return;
+        }
+	}
+
+	/** check if user input is in word */
+	method void updateGameState(char input, boolean isHint) {
+		if (word.indexInWord(input))
+		{
+			//letter found in word, update relevant fields
+			if (~isHint) 
+			{
+				//letter received wasn't a hint
+				do Messages.rightLetter();
+			}
+			else 
+			{
+				// the price of a hint is that of two wrong guesses
+				do Messages.hintPrice();
+				do wrongLetterUpdate();
+				do wrongLetterUpdate();
+			}
+			do rightLetterUpdate(input);
+		}
+		else{
+			//letter not found in word
+			do Messages.wrongLetter();
+			do wrongLetterUpdate();
+		}
+		//update fields
+		let lettersGuessed[guesses] = input;
+		let guesses = guesses + 1;	
+		do updateRemainingLetters();	
+		return;
+	}
+
+	/** update game state according to a correct letter */
+
+	method void rightLetterUpdate(char input) {
+		do word.update(input);
+		if (word.isRevealed())
+		{
+			//user won
+			do Messages.winningMessage(word.getHidden());
+			let gameOver = true;
+		}
+		return;
+	}
+
+	/** update game state according to an incorrect letter */
+	method void wrongLetterUpdate() {
+		do draw.setPhase(draw.getPhase() + 1);
+		do draw.drawMan(draw.getPhase());
+		if (draw.isComplete())
+		{
+			//user lost
+			do Messages.losingMessage(word.getSelected());
+			let gameOver = true;
+		}
+		return;
+	}
+
+	/** check if input from the user is a letter */
+	method boolean inputInvalid(char letter){
+		var int i;
+		let i = 0;
+		while( i < alphabet.length()){	
+			if (alphabet.charAt(i) = letter){
+				//input found in alphabet
+				return false;
+			}
+			let i  = i + 1;
+		}
+		return true;	
+	}
+
+
+	/**check if a letter was already selected*/
+	method boolean wasSelected(char letter){
+		var int i;
+		let i = 0;
+		while( i < guesses){	
+			if (lettersGuessed[i] = letter){
+				//letter selected already
+				return true;
+			}
+			let i  = i + 1;	
+		}
+		return false;	
+	}
+
+	/**update pool of remaining letter after user selected a new letter*/
+	method void updateRemainingLetters(){
+		var int i;
+		var char cur;
+		//get rid of previous remaining letters
+		do remainingLetters.dispose();
+		let i = 0;
+		let remainingLetters = String.new(alphabet.length() - guesses);
+		while( i < alphabet.length()){	
+			let cur = alphabet.charAt(i);
+			if (~wasSelected(cur)) {
+				//add letters which haven't been guessed yet 
+				do remainingLetters.appendChar(cur);
+			}
+			let i  = i + 1;	
+		}
+		return;
+	}
+}

@@ -1,0 +1,124 @@
+/** librery of the various messages printed to the user during the game*/
+
+class Messages{
+
+	/** prints the a message in case of an invalid input by the user */
+	function void invalidInputMessage(char input){
+		do Output.println(); 
+		do Output.printString("this input is invalid.");
+		do Output.println(); 
+		do Sys.wait(1000);
+		return;
+	}
+	/** print response to unsuccessful try */
+	function void wrongLetter(){
+		do Output.println(); 
+		do Output.printString("Bad choice!");
+		do Output.println(); 
+		do Sys.wait(1000);
+		return;
+	}
+
+	/** print request for game mode */
+	function void getMode(){
+		do Output.println(); 
+		do Output.printString("Press 'Z' for hard mode, otherwise press anything for easy mode");
+		do Output.println(); 
+		do Sys.wait(1000);
+		return;
+	}
+
+	/** print response to successful try */
+	function void rightLetter(){
+		do Output.println(); 
+		do Output.printString("Good choice!");
+		do Output.println(); 
+		do Sys.wait(1000);
+		return;
+	}
+
+	/** print response to request for hint */
+	function void noHint(){
+		do Output.println(); 
+		do Output.printString("Sorry, no hint available.");
+		do Output.println(); 
+		do Sys.wait(1000);
+		return;
+	}
+
+	/** game introduction */
+	function void writeNewGame(){
+		do Output.printString("Welcome to the game of HangNand!");
+		do Output.println(); 
+		do Output.printString("Here you will guess terms from the Nand to Tetris course!");
+		do Output.println(); 
+		return;
+	}
+
+	/** prints the winning Message */
+	function void winningMessage(String word){
+		do Output.println();
+		do Output.printString("Congrats! You won.");
+		do Output.println();
+		do Output.printString("Word was: ");
+		do Output.printString(word);
+		do Output.println();
+		do Sys.wait(2000);
+		return;
+	}
+
+	/** write hidden word state at beginning of each turn */
+	function void writeWordState(String word){
+		do Output.printString("current word status is: ");
+		do Output.printString(word);
+		do Output.println(); 
+		return;
+	}
+
+	/** prints response to hint request */
+	function void hintPrice(){
+		do Output.println();
+		do Output.printString("Hints come with a price...");
+		do Output.println(); 
+		do Sys.wait(1000);
+		return;
+	}
+
+	/** prints the losing message */
+	function void losingMessage(String word){
+		do Output.printString("Oh no! You lost!");
+		do Output.println(); 
+		do Output.printString("Word was: ");
+		do Output.printString(word);
+		do Output.println();
+		do Sys.wait(2000);
+		return;
+	}
+	
+	/**ask if the user wants to play another game */
+	function void restartGameMessage(){
+		do Output.printString("Press 'X' to exit, otherwise anything for a new game");
+		do Output.println(); 
+		return;
+	}
+
+	/** ask the user to enter a letter*/
+	function void enterLetterMessage(){
+		do Output.printString("enter an UPPERCASE between A-Z, or space for a hint");
+		do Output.println(); 		
+		return;
+	}
+
+	/** print response if letter picked was already selected */
+	function void wasSelected(String remaining){
+		do Output.println(); 		
+		do Output.printString("letter was previously selected!");
+		do Output.println(); 		
+		do Output.printString("You have yet to choose from: "); 
+		do Output.println(); 			
+		do Output.printString(remaining); 
+		do Output.println();
+		do Sys.wait(3000);
+		return; 		
+	}
+}

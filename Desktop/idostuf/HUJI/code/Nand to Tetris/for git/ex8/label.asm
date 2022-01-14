@@ -1,0 +1,2 @@
+//branching goto destination
+(label)

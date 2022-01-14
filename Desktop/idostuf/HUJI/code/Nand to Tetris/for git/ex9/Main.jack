@@ -1,0 +1,9 @@
+class Main{
+	function void main(){
+		var HangNand game;
+		let game = HangNand.new();
+		do game.run();
+		do game.dispose();	
+		return;
+	}
+}

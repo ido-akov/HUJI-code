@@ -1,0 +1,176 @@
+/** represents the hidden word of the game..*/
+
+class HiddenWord{
+	
+	static Array easyWords;
+	static Array hardWords;
+	field String selectedWord;
+	field String hiddenWord;
+
+	/** constructor */
+	constructor HiddenWord new(int i, boolean hard) {
+		//two possible arrays of words for game
+		let easyWords = Array.new(17);
+		let easyWords[0] = "NAND";
+		let easyWords[1] = "XOR";
+		let easyWords[2] = "NOT";
+		let easyWords[3] = "ADDER";
+		let easyWords[4] = "CARRY";
+		let easyWords[5] = "FLIPFLOP";
+		let easyWords[6] = "RAM";
+		let easyWords[7] = "SCREEN";
+		let easyWords[8] = "KEYBOARD";
+		let easyWords[9] = "PC";    
+		let easyWords[10] = "SYMBOL";
+		let easyWords[11] = "LABEL";
+		let easyWords[12] = "LOCAL";
+		let easyWords[13] = "STATIC";
+		let easyWords[14] = "PUSH";
+		let easyWords[15] = "POP";
+		let easyWords[15] = "STACK";
+		let easyWords[16] = "CONSTANT";
+
+		let hardWords = Array.new(17);
+		let hardWords[0] = "BITSHIFT";
+		let hardWords[1] = "ARITHMETIC";
+		let hardWords[2] = "ARCHITECTURE";
+		let hardWords[3] = "REGISTER";
+		let hardWords[4] = "DEMULTIPLEXOR";
+		let hardWords[5] = "HALFADDER";
+		let hardWords[6] = "ASSEMBLER";
+		let hardWords[7] = "VIRTUAL";
+		let hardWords[8] = "COMPILATION";
+		let hardWords[9] = "OPERATING";    
+		let easyWords[10] = "SEQUENTIAL";
+		let easyWords[11] = "FUNCTION";
+		let easyWords[12] = "BOOTSTRAP";
+		let easyWords[13] = "INITIATION";
+		let easyWords[14] = "PARSING";
+		let easyWords[15] = "ABSTRACTION";
+		let easyWords[16] = "OVERFLOW";
+		if (hard) {let selectedWord = hardWords[i];}
+		else {let selectedWord = easyWords[i];}
+		do createHiddenWord();
+		return this;
+	}
+	/** dispose of a HiddenWord object */
+	method void dispose() {
+		do hiddenWord.dispose();
+		do selectedWord.dispose();
+		do easyWords.dispose();
+		do hardWords.dispose();
+		do Memory.deAlloc(this);
+		return;
+	}
+
+	
+	/**select a word from the list and creates the pattern of the hidden word */
+	method String createHiddenWord(){
+		var int i;
+		let i = 0;
+		let hiddenWord = String.new(selectedWord.length());
+		while(i<selectedWord.length()){
+			do hiddenWord.appendChar(95);
+			let i = i + 1;
+		}
+		return hiddenWord;
+	}
+	
+	/** check if all the word was revealed */
+	method boolean isRevealed(){
+		var int i;
+		let i = 0;
+		while(i<hiddenWord.length()){
+			if(95 = hiddenWord.charAt(i)){
+				return false;
+			}
+			let i = i + 1; 
+		}
+		return true;
+	}
+
+
+	/** check if a letter is in the hiddenWord and if it does , replace it */
+	method bool indexInWord(char letter){
+		var int i;
+		let i = 0;
+		while(i<selectedWord.length()){
+			if(selectedWord.charAt(i) = letter){
+				return true;
+			}
+			let i = i + 1; 
+		}
+		return false;
+	}
+
+	/** put in a letter from selectedWord in hiddenWord */ 
+	method void update(char letter)
+	{
+		var int j;
+		let j = 0;
+		while (j < hiddenWord.length())
+		{
+			//update all instances of letter in hidden word
+			if (letter = selectedWord.charAt(j))
+			{
+				do hiddenWord.setCharAt(j,letter);
+			}
+			let j = j + 1;
+		}
+		return;
+	}
+
+	/** gets the hidden word */
+	method String getHidden(){
+		return hiddenWord;
+	}
+
+	/** get selected word */
+	method String getSelected(){
+		return selectedWord;
+	}
+
+	/** find first unchosen character which appears only once within selected word, 
+	if none such characters return 0 */ 
+	method char giveHint()
+	{
+		var int i;
+		var char cur;
+		let i = 0;
+		if (count(hiddenWord, 95) = 1)
+		{
+			//user is one guess distance from winning, no hint given
+			return 0;
+		}
+		while (i < selectedWord.length())
+		{
+			let cur =selectedWord.charAt(i); 
+			if ((count(selectedWord, cur) = 1) & (hiddenWord.charAt(i) = 95))
+			{
+				//letter appears only once in selected word and hasn't yet been guessed
+				return cur;
+			}
+			let i = i + 1;
+		}
+		//no letter found suitable to give as hint
+		return 0;
+	}
+
+	/** count instances of a char in a string */
+	method int count(String s, char c)
+	{
+		var int i;
+		var int count;
+		let i = 0;
+		let count = 0;
+		while (i < s.length())
+		{	
+			if (c = s.charAt(i))
+			{
+				let count = count + 1;
+			}
+			let i = i + 1;
+		}
+		return count;
+	}
+}

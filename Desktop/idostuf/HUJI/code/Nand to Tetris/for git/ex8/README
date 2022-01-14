@@ -1,0 +1,52 @@
+ikavodo, rivlev1997
+===============================================================================
+Ido Akov, ID 302246111, ido.akov@mail.huji.ac.il
+Rivka Levi, ID 318342250, rivka.levi@mail.huji.ac.il
+===============================================================================
+
+                           Project 8
+                           ---------
+  
+
+Submitted Files
+---------------
+README - This file.
+VMTranslator.py
+VMtranslator
+Makefile
+
+ASM template files:
+
+add.asm - ASM code to pop top two stack entries, add them and push back result
+and.asm - ASM code to pop top two stack entries, and them and push back result
+bootstrap.asm - ASM to set Stack Pointer to 256, afterwards we call Sys.init 0
+call.asm - ASM code to call a function
+eq.asm - ASM code to pop top two stack entries, check if equal and push back 0 (false)
+or -1 (true)
+function.asm - ASM code to initiate a function
+goto.asm - ASM code to goto a VM label unconditionally
+gt.asm - ASM code to pop top two stack entries, check if second greater than first, 
+ and push back 0 (false) or -1 (true)
+if-goto.asm - ASM code to goto a VM label conditionally
+label.asm - ASM code for a new label
+lt.asm - ASM code to pop top two stack entries, check if second less than first, 
+and push back 0 (false) or -1 (true)
+neg.asm - ASM code to pop top stack entry, negate and push back result
+not.asm - ASM code to pop top stack entry, bitwise not it and push back result
+or.asm - ASM code to pop top two stack entries, or them and push back result
+pop.asm - ASM code to pop from stack into local/argument/this/that memory segment
+pop_pointer.asm - ASM code to pop from stack into pointer memory segment
+pop_static.asm - ASM code to pop from stack into static memory segment
+pop_temp.asm - ASM code to pop from stack into temp memory segment
+push.asm - ASM code to push into stack from local/argument/this/that memory segment
+push_constant.asm - ASM code to push into stack from constant memory segment
+push_pointer.asm - ASM code to push into stack from pointer memory segment
+push_static.asm - ASM code to push into stack from static memory segment
+push_temp.asm - ASM code to push into stack from temp memory segment
+return.asm - ASM code to return from a function, set back stack to previous condition
+sub.asm - ASM code to pop top two stack entries, subtract first from second and push back result
+
+Remarks
+-------
+Hot damn! Good exercise. We had some nice, intelligent debugging sessions
+
