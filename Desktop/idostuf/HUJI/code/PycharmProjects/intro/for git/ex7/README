@@ -1,0 +1,22 @@
+ikavodo
+302246111
+Ido Akov
+
+README for ex7
+
+run-time analyses:
+
+is_prime(n):
+
+	minimal run-time = O(1) for even n, because we have a constant number of lines of code to run for any input before returning False.
+	Maximal run-time = O(sqrt(n)) for prime n, because the program calls the function 
+has_divisor_smaller_than (n, i) precisely sqrt(n)- 2 times 
+
+print_no_repetition_sequences(char_list, n):
+	
+	the function perms(lst) has a run-time complexity of O(n!)- with this being the number of calls to itself. The minimal run-time is thus equal to the maximal run-time, as the number of calls of the function to itself is fixed.
+	the function print_no_repetition_sequences itself goes over the array created by perms(lst) and prints the members one by one. Meaning the overall complexity is O(n!). 
+
+flood_fill(image, start):
+	minimal run-time = O(i * j) with i, j = len(image), len(image[0]) in case no neighbors are to be filled, meaning the program iterates over the whole matrix but makes no recursive calls.
+	maximal run-time = ((i - 2) * (j - 2) - 1) * (i * j) in case all cells not in the edges of the matrix are empty, thus all flooded. This can be approximated to O((i-2) * (j-2) * i * j), or even O(i**2 * j**2) 
