@@ -1,0 +1,25 @@
+ikavodo
+302246111
+Ido Akov
+
+README for ex05
+
+I separated the function find_words_in_matrix to the following functions: 
+
+search_loop- which designates for each direction how to search through the matrix, and updated the values of words found in the word dictionary
+
+compare_words, which does the actual comparing to the list of words using the function get_all_substrings(): which returns all possible sub-strings forwards
+
+the actual searches are done using three different functions:
+
+down_search: which basically inverts the matrix up to down and returns a list with columns as rows
+
+reverse: which reverses the matrix right to left
+
+diagonal_search: which makes use of the helper-function: 
+get_rows: which returns a replica of the original matrix
+
+find_words_in_matrix itself finally creates the word dictionary and updates according the searches done. It returns only those items with a value of larger than 0. 
+
+For my checking function I used down_search, with the cases [], [[‘a’],[‘b’],[‘c’],[‘d’]],[[‘a’,’b’,’c’,’d’],[‘a’,’b’,’c’,’d’]].
+I chose the first for an empty matrix, t  

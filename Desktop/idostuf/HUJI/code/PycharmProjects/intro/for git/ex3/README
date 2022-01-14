@@ -1,0 +1,22 @@
+ikavodo
+302246111
+Ido Akov
+I discussed function 7 (primes factors) with Nadav Azarzar
+
+README for ex03
+
+Description: 
+for part 4 I chose the following test cases: [1.00, 1, 1.001, 1.01], [.99, .98, 1.0, 1], [2 ** 0.5, 239 / 169], [1, 1, 1, 1].
+The first has very similar values with a float being the maximum,
+the second similar values with an int being the maximum, 
+the third extremely close values both being floats, the one an approximation of an irrational number, 
+and the last test case has all similar values. 
+
+Part 5:
+1. cyclic(123 ,321) returns TypeError, because an int object has no len
+2. maximum([-3, -2, -1]) returns -1, because function can compare negatives
+3. maximum([1, 10, 100, ‘intro’]) returns 100, because the function overlooks non-int types
+4. histogram(3, [1,2,3,4]) returns [0, 1, 1], because 1, 2 each appear once within the num_list
+5. prime_factors(0) returns [], because the condition for the while loop isn’t met, meaning an empty list is returned
+6. pairs([0,0,1,1,2,2], 2) returns [[0,2], [1,1]] because all permutations aren’t added onto the list
+ 
