@@ -1,0 +1,51 @@
+ikavodo
+
+Salam Awawdi Ohad Biran
+=============================
+=      File description     =
+=============================
+
+SimpleHashSet.java- abstract parent class for OpenHashSet, ClosedHashSet, implementation of SimpleSet interface
+
+OpenHashSet.java- Open hashing based implementation of SimpleHashSet using LinkedFacade objects.
+
+ LinkedFacade.java- An extension of CollectionFacadeSet which takes a LinkedList as a collection, and allows also
+ for iteration over the linked list.
+
+ ClosedHashSet- Closed hashing based implementation of a SimpleSet<String>, based on quadratic probing.
+
+ CollectionFacadeSet- implementation of SimpleSet for analysis with other set-based collections.
+
+ SimpleSetPerformanceAnalyzer- Comparing of different set implementation performances by
+  analyzing performance time with different operations on set.
+
+RESULTS- runtime results
+
+README
+  
+
+=============================
+=  Implementation details   =
+=============================
+I implemented OpenHashSet's table using an object called LinkedFacade, which is an extension of CollectionFacadeSet
+ with an Iterator.
+
+I implemented the ClosedHashSet's deletion mechanism with a static flag "" stored in memory,
+ and reference comparison == to this flag. Thus if the user attempts to add to the ClosedHashSet an empty string,
+the new reference will not be evaluated as equal to the flag, in case it is compared to a deleted key.
+Because of string internment == will not harm the comparing of other strings, in case of deletion for example.
+
+OpenHashSet's bad results for data1 are a consequence of there being only a single LinkedFacade object in use-
+as all objects have the exact same hashcode. For the exact same reason all quadratic probes in ClosedHashSet
+are full, so when we finally reach an empty cell, we know we iterated over all of the strings in the table.
+
+Of the data structures java's hashSet seems to be quickest overall, beating TreeSet and my own implementations
+everytime. TreeSet seems to be fast for adding new data, less so for checking if data is contained.
+LinkedList doesn't do well at all here because it isn't a set, so the facade needs to "make it into one" by
+checking if it contains the given value before adding. This is a large time waster...
+
+Concerning my own implementations: ClosedHashSet seems to have better runtimes than OpenHash for practically
+everything, except for a few specific String containment checks.
+
+I believe java's HashSet implementation can take into account a situation with similiar hashcodes, and somehow
+change them ahead of time in order to minimize probing.
